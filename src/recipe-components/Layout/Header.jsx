@@ -10,8 +10,8 @@ function Header() {
           <Navbar.Brand href="/">Home</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/home">Recipes</Nav.Link>
-            <Nav.Link href="list-item">Shopping List</Nav.Link>
-            <Nav.Link href="#">List Bill</Nav.Link>
+            <Nav.Link href="/list-item">Shopping List</Nav.Link>
+            <Nav.Link href="/recipes">List Bill</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
