@@ -29,6 +29,10 @@ export const rootReducer = (state = initState, action) => {
   switch (action.type) {
     case 'add':
       break;
+    case 'get_recipes':
+      return {
+        ...state
+      };
     case 'delete':
       break;
     case 'update':

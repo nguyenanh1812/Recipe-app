@@ -12,3 +12,8 @@ export const handleUpdate = (payload) => ({
   type: 'update',
   payload: payload,
 });
+
+export const handleGetRecipes = (payload) => ({
+  type: 'get_recipes',
+  payload: payload,
+});
