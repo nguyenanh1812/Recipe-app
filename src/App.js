@@ -11,6 +11,7 @@ import Recipes from "./recipe-components/Recipes";
 function App() {
   return (
     <>
+      <Header />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -18,7 +19,6 @@ function App() {
           <Route path="/list-item" element={<ListItem />} />
         </Routes>
       </BrowserRouter>
-      <Header />
     </>
   );
 }
