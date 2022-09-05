@@ -1,7 +1,8 @@
-import React from 'react'
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 export default function Recipes() {
-  return (
-    <div>Recipes</div>
-  )
+  const list = useSelector((state) => state);
+  console.log(list);
+  return <div>Recipes</div>;
 }
