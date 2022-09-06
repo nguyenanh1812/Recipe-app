@@ -6,10 +6,18 @@ import { useForm } from "react-hook-form";
 export default function Recipes() {
   const { register, handleSubmit } = useForm();
   const [data, setData] = useState("");
+  const [displayForm, setDisplayForm] = useState(false);
+  const [displayInput, setDisplayInput] = useState(false);
 
+  const handelDisplay = () => {
+    setDisplayForm(!displayForm)
+  }
+  const handelInput = () => {
+    setDisplayInput(!displayInput)
+  }
   return (
     <div className="container mt-4">
-      <Button variant="success">New Recipe</Button>
+      <Button variant="success" onClick={handelDisplay}>New Recipe</Button>
       <h1 className="text-center">Please select a Recipe!</h1>
       <hr />
       <div className="row">
@@ -27,15 +35,29 @@ export default function Recipes() {
           </div>
         </div>
         <div className="col-md-6">
-          <form
-            onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}
-          >
-            <input {...register("name")} placeholder="Name" />
-            <input {...register("imageURL")} placeholder="Image URL" />
-            <textarea {...register("description")} placeholder="Description" />
-            <p>{data}</p>
-            <button className="submit-add"> Add ingredient</button>
-          </form>
+          {displayForm &&
+            <>
+
+              <form
+                onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}
+              >
+              <Button variant="success" type="submit">Save</Button>
+              <Button variant="danger" type="reset">Cancel</Button>
+                <input {...register("name")} placeholder="Name" />
+                <input {...register("imageURL")} placeholder="Image URL" />
+                <textarea {...register("description")} placeholder="Description" />
+                <p>{data}</p>
+
+              </form>
+              {displayInput &&
+                <div >
+                  <input type="text" />
+                  <input type="text" />
+                </div>
+              }
+              <button className="submit-add" onClick={handelInput}> Add ingredient</button>
+            </>
+          }
         </div>
       </div>
     </div>
