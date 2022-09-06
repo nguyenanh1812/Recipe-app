@@ -9,8 +9,8 @@ function Header() {
         <Container>
           <Navbar.Brand href="/">Home</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/home">Recipes</Nav.Link>
-            <Nav.Link href="list-item">Shopping List</Nav.Link>
+            <Nav.Link href="/Recipes">Recipes</Nav.Link>
+            <Nav.Link href="/shopping-list">Shopping List</Nav.Link>
             <Nav.Link href="#">List Bill</Nav.Link>
           </Nav>
         </Container>
