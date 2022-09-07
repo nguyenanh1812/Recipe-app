@@ -102,12 +102,15 @@ section > label {
   z-index: 9999999;
 }
 
-button[type="button"] {
+button[type="button"], button[type="reset"] {
   color: white;
   letter-spacing: 0px;
   text-transform: none;
   padding: 10px;
   letter-spacing: 1px;
+  padding: 5px 20px;
+  font-size: 18px;
+  font-weight: 550;
 }
 
 button:hover {
