@@ -170,7 +170,7 @@ export default function Recipes() {
         <button className='btn bg-success mt-3' onClick={() => addIngredient()}>Add Ingredient</button>
       </div>
       <div className='col-md-6 mt-3' style={{ display: `${showElement.details ? 'block' : 'none'}` }}>
-        <Details btnEditForm={btnEditForm} editForm={editForm} />
+        <Details btnEditForm={btnEditForm} editForm={editForm} setShowElement={setShowElement}/>
       </div>
     </div>
   )

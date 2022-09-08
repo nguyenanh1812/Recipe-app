@@ -3,7 +3,7 @@ import { store } from '../app/store'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-export default function Details({ btnEditForm, editForm }) {
+export default function Details({ btnEditForm, editForm, setShowElement }) {
     console.log(store.getState().details)
     const details = useSelector(state => state.details[0])
     const indexDetails = useSelector(state => state.details[1])
@@ -51,6 +51,8 @@ export default function Details({ btnEditForm, editForm }) {
     // console.log(details)
     const btnDelRecipe = () => {
         dispatch({ type: 'DEL_RECIPE', item: indexDetails })
+        setShowElement({newRecipe: false,
+            details: false})
         // console.log(store.getState())
     }
     const saveEditRecipe = () => {
