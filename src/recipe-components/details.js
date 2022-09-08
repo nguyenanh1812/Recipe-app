@@ -3,25 +3,40 @@ import { store } from '../app/store'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-export default function Details() {
-    const details = store.getState().details[0]
-    const abc = useSelector(state => state.details)
-    console.log(abc)
-    const [editForm, setEditForm] = useState(false)
-    const btnEditForm = () => {
-        setEditForm(true)
-    }
+export default function Details({ btnEditForm, editForm }) {
+    console.log(store.getState().details)
+    const details = useSelector(state => state.details[0])
+    const indexDetails = useSelector(state => state.details[1])
+    // const listIngredient = indexDetails;
+    // console.log(indexDetails)
+    // setListIngredient(details)
+    // console.log(listIngredient)
+    // console.log('details', store.getState().details)
+    // const [editForm, setEditForm] = useState(false)
+    // const btnEditForm = () => {
+    //     setEditForm(true)
+    // }
 
     const shoppingList = (e) => {
         e.prevenDefault()
     }
 
-    const editNameIngredient = (e) => {
-        console.log(e.target.value)
+    const editNameIngredient = (e, index) => {
+        dispatch({
+            type: 'EDIT_NAMEINGREDIENT', item: [{
+                nameIngredient: e.target.value
+            }, index]
+
+        })
     }
 
-    const editCountIngredient = (e) => {
-        console.log(e.target.value)
+    const editCountIngredient = (e, index) => {
+        dispatch({
+            type: 'EDIT_COUNTINGREDIENT', item: [{
+                countIngredient: e.target.value
+            }, index]
+
+        })
     }
     const dispatch = useDispatch()
     const btnEditAddIngredient = () => {
@@ -31,15 +46,25 @@ export default function Details() {
                 countIngredient: '',
             }
         })
-        console.log(store.getState().details[0].ingredient)
+        // console.log(store.getState().details[0].ingredient)
     }
     // console.log(details)
     const btnDelRecipe = () => {
-        dispatch({type: 'DEL_RECIPE', item : 1})
+        dispatch({ type: 'DEL_RECIPE', item: indexDetails })
+        // console.log(store.getState())
+    }
+    const saveEditRecipe = () => {
+        dispatch({ type: 'SAVE_EDIT_RECIPE', item: indexDetails })
+        console.log(store.getState().details[0])
+    }
+    const btnDelEditIngredinet = (index) => {
+        dispatch({ type: 'DEL_EDIT_INGREDIENT', item: index })
+        details?.ingredient.splice(index, 1)
+        console.log(details)
     }
     return (
         <>
-            <div className='mb-3'>  
+            <div className='mb-3'>
                 <img className='w-100' src={details?.img} alt='' />
             </div>
             <div>
@@ -53,31 +78,31 @@ export default function Details() {
                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li onClick={(e) => shoppingList(e)}><Link className="dropdown-item" to="/list-item">To Shopping List</Link></li>
                         <li onClick={() => btnEditForm()}><div className="dropdown-item">Edit ReciPe</div></li>
-                        <li onClick={()=>btnDelRecipe()}><div className="dropdown-item">Delete ReciPe</div></li>
+                        <li onClick={() => btnDelRecipe()}><div className="dropdown-item">Delete ReciPe</div></li>
                     </ul>
                 </div>
             </div>
             <div className='mb-3'>
                 <label>{details?.name}</label>
             </div>
-            <div className='details-ingredient mt-2'> 
+            <div className='details-ingredient mt-2'>
                 {
-                    store.getState()?.details[0]?.ingredient.map((elm, index) => {
-                        console.log(details)
+                    details?.ingredient.map((elm, index) => {
+                        // console.log(details)
                         return (
                             editForm === false ?
                                 <div key={index} className='mt-1'>
-                                    <input className='form-control' type='text' disabled={true} defaultValue={`${elm?.nameIngredient} - ${elm?.countIngredient}`} />
+                                    <input className='form-control' type='text' disabled={true} value={`${elm?.nameIngredient} - ${elm?.countIngredient}`} />
                                 </div> :
                                 <div key={index} className='recipes__info__ingredient row d-flex mb-2'>
                                     <div className='recipes__info__ingredient-name col-md-6'>
-                                        <input className='form-control' type="text" onChange={(e) => editNameIngredient(e)} defaultValue={elm?.nameIngredient} />
+                                        <input className='form-control' type="text" onChange={(e) => editNameIngredient(e, index)} value={elm?.nameIngredient} />
                                     </div>
                                     <div className='recipes__info__ingredient-count col-md-3'>
-                                        <input className='form-control' type="text" onChange={(e) => editCountIngredient(e)} defaultValue={elm?.countIngredient} />
+                                        <input className='form-control' type="text" onChange={(e) => editCountIngredient(e, index)} value={elm?.countIngredient} />
                                     </div>
                                     <div className='recipes__info__ingredient-close col-md-1'>
-                                        <label className='btn bg-danger'>X</label>
+                                        <label onClick={() => btnDelEditIngredinet(index)} className='btn bg-danger'>X</label>
                                     </div>
                                 </div>
                         )
@@ -86,7 +111,7 @@ export default function Details() {
                 {
                     editForm ? < div className='row d-flex mt-3'>
                         <button onClick={() => btnEditAddIngredient()} className='btn bg-success w-auto me-2'>Add Ingredient</button>
-                        <button className='btn bg-success w-auto'>Save</button>
+                        <button onClick={() => saveEditRecipe()} className='btn bg-success w-auto'>Save</button>
                     </div> : ''
                 }
             </div>

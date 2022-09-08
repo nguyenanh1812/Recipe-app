@@ -18,14 +18,26 @@ const details = (state = [], action) => {
     switch (action.type) {
         case 'SHOW_RECIPE':
             state = [...action.item]
-            return state
+            console.log('show : ',state)
+            return [...state]
         case 'ADD_INGREDIENT':
             let newIngredient = state[0].ingredient
             state[0].ingredient = [...newIngredient, action.item]
             console.log(state)
-            return state
+            return [...state]
+        case 'EDIT_NAMEINGREDIENT':
+            state[0].ingredient[action.item[1]].nameIngredient = action.item[0].nameIngredient
+            console.log(state)
+            return [...state]
+        case 'EDIT_COUNTINGREDIENT':
+            state[0].ingredient[action.item[1]].countIngredient = action.item[0].countIngredient
+            console.log(state)
+            return [...state]
+        case 'DEL_EDIT_INGREDIENT':
+            console.log(state)
+            return [...state]
         default:
-            return state;
+            return [...state];
     }
 }
 export default details;

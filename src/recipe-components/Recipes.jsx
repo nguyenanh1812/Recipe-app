@@ -1,11 +1,12 @@
 import React from 'react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { hiddenNewRecipe } from '../reducer/hiddenNewRecipe'
 import { store } from '../app/store'
 import Details from './details'
 
 export default function Recipes() {
+  const [editForm, setEditForm] = useState(false)
   const init = store.getState().details[0]
   // console.log(init)
   const [showElement, setShowElement] = useState({
@@ -17,10 +18,14 @@ export default function Recipes() {
   const [showImg, setShowImg] = useState(false)
   const [des, setDes] = useState('')
   const [ingredientCount, setIngredientCount] = useState([])
+  const dispatch = useDispatch()
   const listRecipes = useSelector(state => {
     // console.log(state)
     return state
   });
+  const btnEditForm = () => {
+    setEditForm(true)
+  }
   // console.log(listRecipes)
   const newRecipe = () => {
     setShowElement({
@@ -30,7 +35,7 @@ export default function Recipes() {
   }
   const save = (e) => {
     // e?.preventDefault()
-    store.dispatch({
+    dispatch({
       type: 'ADD_RECIPE', item: {
         name: name,
         img: srcImg,
@@ -38,16 +43,19 @@ export default function Recipes() {
         ingredient: ingredientCount
       }
     })
+    setIngredientCount([])
+    localStorage.setItem('listRecipe',JSON.stringify(store.getState().listRecipe))
     console.log(store.getState())
   }
   // console.log(store.getState())
-  const showDetail = (elm) => {
+  const showDetail = (elm, index) => {
     setShowElement({
       newRecipe: false,
       details: true
     })
-    store.dispatch({ type: 'SHOW_RECIPE', item: [elm] })
-    // console.log(store.getState())
+    setEditForm(false)
+    dispatch({ type: 'SHOW_RECIPE', item: [elm, index] })
+    console.log(store.getState())
   }
   const handleName = (e) => {
     setName(e.target.value)
@@ -108,7 +116,7 @@ export default function Recipes() {
           {
             listRecipes.listRecipe.length > 0 ? listRecipes.listRecipe.map((elm, index) => {
               return (
-                <button onClick={() => showDetail(elm)} className='btn text-start mt-3 border d-block' key={index}>
+                <button onClick={() => showDetail(elm, index)} className='btn text-start mt-3 border d-block' key={index}>
                   <div className='recipes__list__item d-flex'>
                     <div className='recipes__list__item__name col-md-10'>
                       <h5>{elm?.name}</h5>
@@ -145,10 +153,10 @@ export default function Recipes() {
                 return (
                   <div key={index} className='recipes__info__ingredient row d-flex mb-2'>
                     <div className='recipes__info__ingredient-name col-md-6'>
-                      <input className='form-control' type="text" value={el.nameIngredient} onChange={(e) => ingredientName(e, index)} />
+                      <input className='form-control' type="text" defaultValue={el.nameIngredient} onChange={(e) => ingredientName(e, index)} />
                     </div>
                     <div className='recipes__info__ingredient-count col-md-3'>
-                      <input className='form-control' type="text" value={el.countIngredient} onChange={(e) => ingredientCounts(e, index)} />
+                      <input className='form-control' type="text" defaultValue={el.countIngredient} onChange={(e) => ingredientCounts(e, index)} />
                     </div>
                     <div className='recipes__info__ingredient-close col-md-1'>
                       <label onClick={() => delIngredient(index)} className='btn bg-danger'>X</label>
@@ -162,7 +170,7 @@ export default function Recipes() {
         <button className='btn bg-success mt-3' onClick={() => addIngredient()}>Add Ingredient</button>
       </div>
       <div className='col-md-6 mt-3' style={{ display: `${showElement.details ? 'block' : 'none'}` }}>
-        <Details />
+        <Details btnEditForm={btnEditForm} editForm={editForm} />
       </div>
     </div>
   )

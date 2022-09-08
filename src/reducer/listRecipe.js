@@ -1,26 +1,29 @@
-const listRecipe = (state = [], action) => {
-//     if (action.type === 'ADD_RECIPE') {
-//         return [...state, action.item]
-//     }
-//     return state;
-// }
-// console.log(listRecipe)
-// if(action.type==='show'){
-//     return 'show'
-// }
-// return state
-// }
-switch (action.type) {
-    case 'ADD_RECIPE':
-        return [...state, action.item]
-    case 'DEL_RECIPE':
-        console.log(state)
-        state.splice(0,1)
-        console.log(state)
-        return state
-    default:
-        return state;
-}
+const listRecipe = (state = JSON.parse(localStorage.getItem('listRecipe'))||[], action) => {
+    //     if (action.type === 'ADD_RECIPE') {
+    //         return [...state, action.item]
+    //     }
+    //     return state;
+    // }
+    // console.log(listRecipe)
+    // if(action.type==='show'){
+    //     return 'show'
+    // }
+    // return state
+    // }
+    switch (action.type) {
+        case 'ADD_RECIPE':
+            return [...state, action.item]
+        case 'DEL_RECIPE':
+            state.splice(action.item, 1)
+            console.log(state)
+            localStorage.setItem('listRecipe',JSON.stringify(state))
+            return [...state]
+        case 'SAVE_EDIT_RECIPE':
+            console.log(state)
+            return [...state]
+        default:
+            return [...state];
+    }
 }
 
 export default listRecipe;

@@ -1,5 +1,5 @@
 import { configureStore, createStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+// import counterReducer from '../features/counter/counterSlice';
 import rootReducer from '../reducer/index';
 import { hiddenNewRecipe } from '../reducer/hiddenNewRecipe';
 
@@ -8,5 +8,5 @@ import { hiddenNewRecipe } from '../reducer/hiddenNewRecipe';
 //     counter: counterReducer,
 //   },
 // });
-export const store=createStore(rootReducer)
+export const store = createStore(rootReducer)
 // console.log(rootReducer)
