@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { addRecipe, updateRecipe, removeRecipe } from "../redux/actions";
-import { recipeListSelector } from "../redux/selectors";
+import { recipeListSelector, ShoppingListSelector } from "../redux/selectors";
 
 export default function Recipes() {
   const { register, handleSubmit } = useForm();
@@ -17,8 +17,16 @@ export default function Recipes() {
   });
   const [displayForm, setDisplayForm] = useState(false);
   const [displayInput, setDisplayInput] = useState(false);
+  const [img, setImg] = useState("")
+  const [amount,setAmount] = useState([])
   const dispatch = useDispatch();
   const recipeList = useSelector(recipeListSelector);
+  const ingredientList = useSelector(ShoppingListSelector);
+  // ingredientList => map taoj ra mang co dl con oject{name:ingredient.name, amount: 0 }
+  // object.amount laf value cua input ingredient
+  // onChange cua input ingredient se set lai value cua mang dl vua tao voi gia tri amount thay doi theo input ingredient
+  console.log(ingredientList)
+
   // console.log(recipeList);
   // const recipe = JSON.parse(data)
 
@@ -34,7 +42,14 @@ export default function Recipes() {
     dispatch(addRecipe(recipe));
     // console.log('state id recipes',recipe);
   };
+  const handleChangeAmout= (e)=>{
+  setAmount(e.target.value)
+  }
+const handleClickIngredient = (e) =>{
 
+}
+// dung useRef de phan biet cac input Igredent voi gia tri ref truyen vao id 
+// handle truyen vao gia tri ref (id) khi an vao se an di display = none
   useEffect(() => {
     console.log("state recipes", data);
   }, [data]);
@@ -81,7 +96,7 @@ export default function Recipes() {
                     variant="success"
                     type="submit"
                     className="me-2"
-                    // onClick={handleAddButtonClick(data)}
+                  // onClick={handleAddButtonClick(data)}
                   >
                     Save
                   </Button>
@@ -90,7 +105,9 @@ export default function Recipes() {
                   </Button>
                 </div>
                 <input {...register("name")} placeholder="Name" />
-                <input {...register("imgURL")} placeholder="Image URL" />
+                <input {...register("imgURL")} placeholder="Image URL" onChange={e => setImg(e.target.value)} />
+                {img && <img src={img} alt="" width="200px" className="mb-3" />}
+
                 <textarea
                   {...register("description")}
                   placeholder="Description"
@@ -98,10 +115,23 @@ export default function Recipes() {
               </form>
               {displayInput && (
                 <div>
-                  <input type="text" />
-                  <input type="text" />
+                  {ingredientList.map(item => (
+                    <div key={item.id}>
+                      {item.quantity &&
+                        <div className="d-flex mb-3 gap-3 justify-content-between">
+                          <input className="mb-0 w-75 bg-white" type="text" value={item.name} disabled />
+                          <input className="mb-0 w-25" type="number" name="" id="" value={amount} onChange= {handleChangeAmout} />
+                          <Button variant="danger" onClick={handleClickIngredient}>
+                            X
+                          </Button>
+                        </div>
+                      }
+                    </div>
+
+                  ))}
                 </div>
               )}
+
               <button className="submit-add" onClick={handelInput}>
                 Add ingredient
               </button>
