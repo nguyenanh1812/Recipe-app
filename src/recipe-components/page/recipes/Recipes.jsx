@@ -4,9 +4,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
-import { addRecipe, updateRecipe, removeRecipe } from "../redux/actions";
-import { recipeListSelector, ShoppingListSelector } from "../redux/selectors";
-import Ingredient from "./common/Ingredient";
+import { addRecipe, updateRecipe, removeRecipe } from "../../../redux/actions";
+import {recipeListSelector} from "../../../redux/selectors";
+import EditForm from "./children/EditForm";
+import IngredientList from "./children/IngredientList";
 
 export default function Recipes() {
   const { register, handleSubmit } = useForm();
@@ -15,43 +16,64 @@ export default function Recipes() {
     name: "",
     description: "",
     imgURL: "",
-    ingredients: [
-    ],
+    ingredients: [],
   });
+  const [orderList, setOrderList] = useState([]);
   const [displayForm, setDisplayForm] = useState(false);
   const [displayInput, setDisplayInput] = useState(false);
   const [img, setImg] = useState("");
   const dispatch = useDispatch();
   const recipeList = useSelector(recipeListSelector);
-  const ingredientList = useSelector(ShoppingListSelector);
-  // ingredientList => map taoj ra mang co dl con oject{name:ingredient.name, amount: 0 }
-  // object.amount laf value cua input ingredient
-  // onChange cua input ingredient se set lai value cua mang dl vua tao voi gia tri amount thay doi theo input ingredient
-  console.log(ingredientList);
-  // console.log(recipeList);
-  // const recipe = JSON.parse(data)
 
   const handelDisplay = () => {
     setDisplayForm(!displayForm);
   };
   const handelInput = () => {
-    setDisplayInput(!displayInput);
+    setDisplayInput(true);
   };
 
   const handleAddButtonClick = (a) => {
     const recipe = { id: uuidv4(), ...a };
     dispatch(addRecipe(recipe));
-    // console.log('state id recipes',recipe);
   };
 
-  const handleClickIngredient = (e) => {
-    
+  const handleHideIngredient = (e) => {};
+
+  // const handleChangeNewIngredient = (e) => {
+  //   if (e.target.name === "name") {
+  //     setNewIngredient({
+  //       ...newIngredient,
+  //       name: e.target.value,
+  //     });
+  //   } else if (e.target.name === "quantity") {
+  //     setNewIngredient({
+  //       ...newIngredient,
+  //       quantity: e.target.value,
+  //     });
+  //   }
+  // };
+
+  const handleChangeIngredients = (ingredient) => {
+    console.log(ingredient);
+    orderList.forEach((item) => {
+      if (item.name === ingredient.name) {
+        ingredient = {
+          ...ingredient,
+          amount: ingredient.amount + item.amount,
+        };
+        return orderList.slice(item, 1, ingredient);
+      }
+      return orderList.push(ingredient);
+    });
+    setOrderList([...orderList]);
   };
-  // dung useRef de phan biet cac input Igredent voi gia tri ref truyen vao id
-  // handle truyen vao gia tri ref (id) khi an vao se an di display = none
+
+  const handleAddOrder = () => {};
+
   useEffect(() => {
-    console.log("state recipes", data);
-  }, [data]);
+    // console.log("state recipes", data);
+    console.log("order", orderList);
+  }, [orderList]);
 
   return (
     <div className="container mt-4">
@@ -117,17 +139,13 @@ export default function Recipes() {
                 />
                 {displayInput && (
                   <div>
-                    {ingredientList.map((item) => (
-                      <div key={item.id}>
-                        {item.quantity && (
-                          <Ingredient
-                            register={register}
-                            item={item}
-                            handleClickIngredient={handleClickIngredient}
-                          />
-                        )}
-                      </div>
-                    ))}
+                    {/* // <Ingredients
+                            //   register={register}
+                            //   item={item}
+                            //   handleHideIngredient={handleHideIngredient}
+                            //   handleChangeIngredients={handleChangeIngredients}
+                            // /> */}
+                    <IngredientList orderList={orderList} />
                   </div>
                 )}
               </form>

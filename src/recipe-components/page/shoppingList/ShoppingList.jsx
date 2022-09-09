@@ -6,8 +6,8 @@ import {
   addIngredient,
   updateIngredient,
   removeIngredient,
-} from "../redux/actions";
-import { ShoppingListSelector } from "../redux/selectors";
+} from "../../../redux/actions";
+import { ShoppingListSelector } from "../../../redux/selectors";
 
 export default function ListItem() {
   const [item, setItem] = useState({
@@ -32,11 +32,22 @@ export default function ListItem() {
   };
 
   const handleAddItem = () => {
-    dispatch(addIngredient({
-      id: uuidv4(),
-      ...item,
-    }))
-  }
+    dispatch(
+      addIngredient({
+        id: uuidv4(),
+        ...item,
+      })
+    );
+  };
+
+  const handleClickItemOrder = (a) => {
+    // XỬ LÝ sao cho lấy được tất cả các thông tin của item (id,name.quantity)
+    console.log(a);
+    //Đẩy dữ liệu của item lên 2 thẻ input
+    // khai báo 1 state boolean khi click thì set state là true => hiển thị danh sách nút(update, clear,delete) và dữ liệu item
+    // Khi ấn nút clear thì set state là false
+    // Update cậu có thể xem ở reducer redux làm tương tự add
+  };
 
   return (
     <div className="container mt-4">
@@ -50,6 +61,7 @@ export default function ListItem() {
               placeholder="Type name"
               value={item.name}
               onChange={handleChangeName}
+              style={{ color: "black" }}
             />
           </div>
           <div className="w-25 ms-3">
@@ -59,12 +71,17 @@ export default function ListItem() {
               type="number"
               value={item.quantity}
               onChange={handleChangeAmount}
+              style={{ color: "black" }}
             />
           </div>
         </div>
         <div>
           <div className="d-flex d-md-block mt-3 mb-3">
-            <button className="btn btn-primary btn-success" type="button" onClick={handleAddItem}>
+            <button
+              className="btn btn-primary btn-success"
+              type="button"
+              onClick={handleAddItem}
+            >
               Add
             </button>
             <button className="btn btn-primary mx-3" type="reset">
@@ -75,7 +92,11 @@ export default function ListItem() {
       </form>
       <div className="border-top border-2">
         {ShoppingList.map((item) => (
-          <div key={item.id} className="m-0 p-2 px-3 border border-top-0">
+          <div
+            key={item.id}
+            className="m-0 p-2 px-3 border border-top-0"
+            onClick={(item) => handleClickItemOrder(item)}
+          >
             <p
               style={{
                 cursor: "pointer",
