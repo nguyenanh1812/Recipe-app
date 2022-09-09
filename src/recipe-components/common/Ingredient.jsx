@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
-export default function Ingredient({ item, handleClickIngredient}) {
-  const [amount, setAmount] = useState(0);
-  const handleChangeAmout = (e) => {
-    setAmount(e.target.value);
+export default function Ingredient({ item, handleHideIngredient, handleChangeIngredients }) {
+  const [ingredient, setIngredient] = useState({
+    name: item.name,
+    amount: 0
+  });
+  const handleChangeAmount = (e) => {
+    setIngredient({ ...ingredient, amount: e.target.value });
   };
+
+  useEffect(() => { 
+    handleChangeIngredients(ingredient)
+  }, [ingredient])
   //Truyền dữ liệu item.name và amount sang recipes
   return (
     <div className="d-flex mb-3 gap-3 justify-content-between">
@@ -18,12 +25,10 @@ export default function Ingredient({ item, handleClickIngredient}) {
       <input
         className="mb-0 w-25"
         type="number"
-        name=""
-        id=""
-        value={amount}
-        onChange={handleChangeAmout}
+        value={ingredient.amount}
+        onChange={handleChangeAmount}
       />
-      <Button variant="danger" onClick={handleClickIngredient}>
+      <Button variant="danger" onClick={handleHideIngredient}>
         X
       </Button>
     </div>

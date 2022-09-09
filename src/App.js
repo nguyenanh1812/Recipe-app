@@ -1,22 +1,21 @@
 import React from "react";
-// import { Counter } from './features/counter/Counter';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./recipe-components/Home";
-import Header from "./recipe-components/Layout/Header";
-import ListItem from "./recipe-components/ListItem";
-import Recipes from "./recipe-components/Recipes";
+import Recipes from "./recipe-components/page/recipes/Recipes";
+import ShoppingList from "./recipe-components/page/shoppingList/ShoppingList";
+import Headers from './recipe-components/Layout/Headers';
 
 function App() {
   return (
     <>
-      <Header />
+      <Headers />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/recipes" element={<Recipes />} />
-          <Route path="/shopping-list" element={<ListItem />} />
+          <Route path="/shopping-list" element={<ShoppingList />} />
         </Routes>
       </BrowserRouter>
     </>

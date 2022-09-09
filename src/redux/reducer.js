@@ -79,25 +79,6 @@ const initState = {
       quantity: 22,
     },
   ],
-  // ingredients: [
-  //   {
-  //     recipeID: 1,
-  //     list: [
-  //       {
-  //         name: "bread",
-  //         amount: 1,
-  //       },
-  //       {
-  //         name: "meat",
-  //         amount: 1,
-  //       },
-  //       {
-  //         name: "egg",
-  //         amount: 1,
-  //       },
-  //     ],
-  //   }
-  // ]
 };
 const rootReducer = (state = initState, action) => {
   console.log(state, action);
