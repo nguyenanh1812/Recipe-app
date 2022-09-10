@@ -3,11 +3,11 @@ import "antd/dist/antd.css";
 import { Select } from "antd";
 import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { ShoppingListSelector } from "../../../../redux/selectors";
+import { shoppingListSelector } from "../../../../redux/selectors";
 
 const { Option } = Select;
 function Ingredient() {
-  const ingredientList = useSelector(ShoppingListSelector);
+  const ingredientList = useSelector(shoppingListSelector);
   const [newIngredient, setNewIngredient] = useState({
     name: "",
     quantity: 0,

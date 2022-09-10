@@ -111,20 +111,20 @@ const rootReducer = (state = initState, action) => {
         shoppingList: [...state.shoppingList, action.payload],
       };
 
-    case "shoppingList/updateRecipe":
-      const shoppingList = [...state.recipeList];
+    case "shoppingList/updateIngredient":
+      const shoppingList = [...state.shoppingList];
       const index2 = shoppingList.findIndex(
-        (recipe) => recipe.id === action.payload.id
+        (shopping) => shopping.id === action.payload.id
       );
-      recipeList[index2] = action.payload;
+      shoppingList[index2] = action.payload;
       return { ...state, shoppingList: shoppingList };
 
     case "shoppingList/removeIngredient":
-      const shoppingList1 = [...state.recipeList];
-      const removeItem = shoppingList1.find(
-        (recipe) => recipe.id === action.payload.id
+      const shoppingList1 = [...state.shoppingList];
+      const removeItem = shoppingList1.findIndex(
+        (shopping) => shopping.id === action.payload.id
       );
-      shoppingList1.slice(removeItem, 1);
+      shoppingList1.splice(removeItem, 1);
       return { ...state, shoppingList: shoppingList1 };
 
     default:
