@@ -9,15 +9,15 @@ const initState = {
       ingredients: [
         {
           name: "bread",
-          amount: 1,
+          quantity: 1,
         },
         {
           name: "meat",
-          amount: 1,
+          quantity: 1,
         },
         {
           name: "egg",
-          amount: 1,
+          quantity: 1,
         },
       ],
     },
@@ -30,11 +30,11 @@ const initState = {
       ingredients: [
         {
           name: "beef",
-          amount: 2,
+          quantity: 2,
         },
         {
           name: "celery",
-          amount: 5,
+          quantity: 5,
         },
       ],
     },
@@ -47,7 +47,7 @@ const initState = {
       ingredients: [
         {
           name: "chicken",
-          amount: 1,
+          quantity: 1,
         },
       ],
     },

@@ -54,7 +54,7 @@ export default function ListItem() {
       <form>
         <div className="d-flex">
           <div className="w-50">
-            <h5>Name</h5>
+            <h5 className="text-white">Name</h5>
             <input
               className="w-100 ps-2"
               type="text"
@@ -65,7 +65,7 @@ export default function ListItem() {
             />
           </div>
           <div className="w-25 ms-3">
-            <h5>Amount</h5>
+            <h5 className="text-white">Amount</h5>
             <input
               className="w-100"
               type="number"
@@ -95,7 +95,7 @@ export default function ListItem() {
           <div
             key={item.id}
             className="m-0 p-2 px-3 border border-top-0"
-            onClick={(item) => handleClickItemOrder(item)}
+            onClick={()=>handleClickItemOrder(item)}
           >
             <p
               style={{

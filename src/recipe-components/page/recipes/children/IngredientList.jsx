@@ -1,9 +1,75 @@
-import React from 'react'
-import Ingredient from './Ingredient'
+import React, { useEffect, useState } from "react";
+import Ingredient from "./Ingredient";
+import { useSelector } from "react-redux";
+import { ShoppingListSelector } from "../../../../redux/selectors";
 
-export default function IngredientList({orderLis}) {
+export default function IngredientList({ orderList, setOrderList }) {
+  const ingredientList = useSelector(ShoppingListSelector);
+  const [list, setList] = useState(ingredientList);
+
+  const removeIngredient = (d) => {
+    // let i = "";
+    // orderList.forEach((e, index) => {
+    //   if ((d = e.name)) {
+    //     return (i = index);
+    //   }
+    // });
+    // if (i) {
+    //   orderList.splice(i-1, 1);
+    //   
+    // }
+    orderList.splice(d, 1)
+    console.log('remove i',d,orderList);
+    setOrderList([...orderList]);
+  };
+
+  useEffect(() => {
+    orderList
+      .filter((e) => e.name)
+      .forEach((element) => {
+        list.forEach((item, index) => {
+          if (item.name === element.name) {
+            console.log("list", list);
+            console.log("1", item);
+            list.splice(index, 1);
+          }
+        });
+      });
+    setList(list);
+  }, [orderList]);
+
+  const handleSetList = (newItem) => {
+    let i = "";
+    let b = false;
+    orderList.forEach((e, index) => {
+      if (e.name === newItem.name) {
+        i = index;
+        b = true;
+      }
+    });
+    if (b) {
+      orderList.splice(i, 1, newItem);
+    } else {
+      orderList.pop();
+      orderList.push(newItem);
+    }
+    setOrderList([...orderList]);
+  };
+
   return (
-    
-    <Ingredient />
-  )
+    <>
+      {orderList.map((item, index) => (
+        <div key={index}>
+          <Ingredient
+            list={list}
+            oldOrder={item}
+            index={index}
+            orderList={orderList}
+            handleSetList={handleSetList}
+            removeIngredient={removeIngredient}
+          />
+        </div>
+      ))}
+    </>
+  );
 }
