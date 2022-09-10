@@ -8,14 +8,17 @@ import { addRecipe, updateRecipe, removeRecipe } from "../../../redux/actions";
 import { recipeListSelector } from "../../../redux/selectors";
 import EditForm from "./children/EditForm";
 import IngredientList from "./children/IngredientList";
+import RecipeDetail from "./children/RecipeDetail";
 
 export default function Recipes() {
   const [displayForm, setDisplayForm] = useState(false);
+  const [recipe,setRecipe] = useState(false);
   const dispatch = useDispatch();
   const recipeList = useSelector(recipeListSelector);
 
   const handelDisplay = () => {
     setDisplayForm(!displayForm);
+    setRecipe(false);
   };
 
   const addNewRecipe = (data) => {
@@ -42,7 +45,10 @@ export default function Recipes() {
       <div className="row">
         <div className="col-md-6">
           {recipeList.map((recipe) => (
-            <div
+            <div onClick={()=>{
+            setRecipe(recipe)
+            setDisplayForm(false)
+            }}
               key={recipe.id}
               className="d-flex justify-content-between align-items-center list-item flex-wrap border rounded p-2 bg-white text-black mb-4"
               style={{ minHeight: "100px", cursor: "pointer" }}
@@ -69,6 +75,12 @@ export default function Recipes() {
           ))}
         </div>
         <div className="col-md-6">
+          {recipe && (
+            <>
+              <RecipeDetail recipe={recipe} />
+            </>
+          )
+          }
           {displayForm && (
             <>
               <EditForm addNewRecipe={addNewRecipe} />
