@@ -1,14 +1,21 @@
-export const handleAdd = (payload) => ({
-  type: 'add',
-  payload: payload,
-});
+export const handleAdd = (payload) => {
 
-export const handleDelete = (payload) => ({
-  type: 'delete',
-  payload: payload,
-});
-
-export const handleUpdate = (payload) => ({
-  type: 'update',
-  payload: payload,
-});
+  return {
+      type: "add",
+      payload: payload,
+    };
+  };
+  
+  export const handleDelete = (payload) => {
+    return {
+      type: "delete",
+      payload: payload,
+    };
+  };
+  
+  export const handleUpdate = (payload) => {
+    return {
+      type: "update",
+      payload: payload,
+    };
+  };

@@ -26,13 +26,14 @@ const initState = [
 ];
 
 export const rootReducer = (state = initState, action) => {
+  console.log(action);
   switch (action.type) {
     case 'add':
-      break;
+      return [...state, action.payload]
     case 'delete':
-      break;
+      break
     case 'update':
-      break;
+     break
     default:
       return state;
   }
