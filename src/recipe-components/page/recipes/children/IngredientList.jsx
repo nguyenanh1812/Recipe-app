@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Ingredient from "./Ingredient";
 import { useSelector } from "react-redux";
-import { ShoppingListSelector } from "../../../../redux/selectors";
+import { shoppingListSelector } from "../../../../redux/selectors";
 
 export default function IngredientList({ orderList, setOrderList }) {
-  const ingredientList = useSelector(ShoppingListSelector);
+  const ingredientList = useSelector(shoppingListSelector);
   const [list, setList] = useState(ingredientList);
 
   const removeIngredient = (d) => {

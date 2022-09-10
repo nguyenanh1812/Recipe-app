@@ -7,15 +7,17 @@ import {
   updateIngredient,
   removeIngredient,
 } from "../../../redux/actions";
-import { ShoppingListSelector } from "../../../redux/selectors";
+import { shoppingListSelector } from "../../../redux/selectors";
+import ShoppingItem from "./ShoppingItem";
 
 export default function ListItem() {
   const [item, setItem] = useState({
     name: "",
     quantity: 0,
   });
+  const [displayBtn, setDisplayBtn] = useState(false);
   const dispatch = useDispatch();
-  const ShoppingList = useSelector(ShoppingListSelector);
+  const shoppingList = useSelector(shoppingListSelector);
 
   const handleChangeAmount = (event) => {
     setItem({
@@ -39,16 +41,31 @@ export default function ListItem() {
       })
     );
   };
-
-  const handleClickItemOrder = (a) => {
-    // XỬ LÝ sao cho lấy được tất cả các thông tin của item (id,name.quantity)
-    console.log(a);
-    //Đẩy dữ liệu của item lên 2 thẻ input
-    // khai báo 1 state boolean khi click thì set state là true => hiển thị danh sách nút(update, clear,delete) và dữ liệu item
-    // Khi ấn nút clear thì set state là false
-    // Update cậu có thể xem ở reducer redux làm tương tự add
+  const handleClickItemOrder = (item) => {
+    setItem(item);
+    handelDisplay();
   };
-
+  const handelDisplay = () => {
+    setDisplayBtn(true);
+  };
+  const update = (item) => {
+    dispatch(
+      updateIngredient({
+        ...item,
+      })
+    );
+  };
+  const remove = (item) => {
+    dispatch(
+      removeIngredient({
+        ...item,
+      })
+    );
+    setItem({
+      name: "",
+      quantity: 0,
+    });
+  };
   return (
     <div className="container mt-4">
       <form>
@@ -77,37 +94,52 @@ export default function ListItem() {
         </div>
         <div>
           <div className="d-flex d-md-block mt-3 mb-3">
-            <button
-              className="btn btn-primary btn-success"
-              type="button"
-              onClick={handleAddItem}
+            {!displayBtn && (
+              <button
+                className="btn btn-primary btn-success"
+                type="button"
+                onClick={handleAddItem}
+              >
+                Add
+              </button>
+            )}
+            {displayBtn && (
+              <>
+                <div
+                  className="btn btn-success mx-3"
+                  onClick={() => update(item)}
+                >
+                  Update
+                </div>
+                <div
+                  className="btn btn-danger mx-3"
+                  onClick={() => remove(item)}
+                >
+                  Delete
+                </div>
+              </>
+            )}
+            <div
+              className="btn btn-primary mx-3"
+              onClick={() => {
+                setItem({
+                  name: "",
+                  quantity: 0,
+                });
+                setDisplayBtn(false);
+              }}
             >
-              Add
-            </button>
-            <button className="btn btn-primary mx-3" type="reset">
               Clear
-            </button>
+            </div>
           </div>
         </div>
       </form>
       <div className="border-top border-2">
-        {ShoppingList.map((item) => (
-          <div
-            key={item.id}
-            className="m-0 p-2 px-3 border border-top-0"
-            onClick={(item) => handleClickItemOrder(item)}
-          >
-            <p
-              style={{
-                cursor: "pointer",
-                margin: "10px 0",
-                fontWeight: 600,
-                fontSize: 18,
-              }}
-            >
-              {item.name} ({item.quantity})
-            </p>
-          </div>
+        {shoppingList.map((item) => (
+          <ShoppingItem
+            item={item}
+            handleClickItemOrder={handleClickItemOrder}
+          />
         ))}
       </div>
     </div>
