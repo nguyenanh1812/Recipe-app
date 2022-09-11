@@ -8,7 +8,7 @@ import {
   removeIngredient,
 } from "../../../redux/actions";
 import { shoppingListSelector } from "../../../redux/selectors";
-import ShoppingItem from "./ShoppingItem";
+import ShoppingItem from "./children/ShoppingItem";
 
 export default function ListItem() {
   const [item, setItem] = useState({
@@ -41,13 +41,16 @@ export default function ListItem() {
       })
     );
   };
+
   const handleClickItemOrder = (item) => {
     setItem(item);
     handelDisplay();
   };
+
   const handelDisplay = () => {
     setDisplayBtn(true);
   };
+
   const update = (item) => {
     dispatch(
       updateIngredient({
@@ -55,6 +58,7 @@ export default function ListItem() {
       })
     );
   };
+
   const remove = (item) => {
     dispatch(
       removeIngredient({
@@ -66,12 +70,13 @@ export default function ListItem() {
       quantity: 0,
     });
   };
+  
   return (
     <div className="container mt-4">
       <form>
         <div className="d-flex">
           <div className="w-50">
-            <h5>Name</h5>
+            <h5 className="text-white">Name</h5>
             <input
               className="w-100 ps-2"
               type="text"
@@ -82,7 +87,7 @@ export default function ListItem() {
             />
           </div>
           <div className="w-25 ms-3">
-            <h5>Amount</h5>
+            <h5 className="text-white">Amount</h5>
             <input
               className="w-100"
               type="number"
@@ -137,6 +142,7 @@ export default function ListItem() {
       <div className="border-top border-2">
         {shoppingList.map((item) => (
           <ShoppingItem
+            key={item.id}
             item={item}
             handleClickItemOrder={handleClickItemOrder}
           />

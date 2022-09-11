@@ -12,24 +12,40 @@ import RecipeDetail from "./children/RecipeDetail";
 
 export default function Recipes() {
   const [displayForm, setDisplayForm] = useState(false);
-  const [recipe,setRecipe] = useState(false);
+  const [recipe, setRecipe] = useState(false);
+  const [datarecipe, setdataRecipe] = useState(false);
   const dispatch = useDispatch();
   const recipeList = useSelector(recipeListSelector);
 
   const handelDisplay = () => {
     setDisplayForm(!displayForm);
     setRecipe(false);
+    setdataRecipe(false)
   };
 
   const addNewRecipe = (data) => {
     const recipe = {
       id: uuidv4(),
-      ...data
+      ...data,
     };
     dispatch(addRecipe(recipe));
   };
 
-  const handleAddOrder = () => {};
+  const deleteRecipe = (item) => {
+    dispatch(
+      removeRecipe({
+        ...item,
+      })
+    );
+  };
+
+  const updateRecipe = (item) => {
+    dispatch(
+      updateRecipe({
+        ...item
+      })
+    )
+  }
 
   useEffect(() => {
     // console.log("state recipes", data);
@@ -45,10 +61,11 @@ export default function Recipes() {
       <div className="row">
         <div className="col-md-6">
           {recipeList.map((recipe) => (
-            <div onClick={()=>{
-            setRecipe(recipe)
-            setDisplayForm(false)
-            }}
+            <div
+              onClick={() => {
+                setRecipe(recipe);
+                setDisplayForm(false);
+              }}
               key={recipe.id}
               className="d-flex justify-content-between align-items-center list-item flex-wrap border rounded p-2 bg-white text-black mb-4"
               style={{ minHeight: "100px", cursor: "pointer" }}
@@ -76,16 +93,9 @@ export default function Recipes() {
         </div>
         <div className="col-md-6">
           {recipe && (
-            <>
-              <RecipeDetail recipe={recipe} />
-            </>
-          )
-          }
-          {displayForm && (
-            <>
-              <EditForm addNewRecipe={addNewRecipe} />
-            </>
+            <RecipeDetail recipe={recipe} deleteRecipe={deleteRecipe} setDisplayForm={setDisplayForm} setRecipe={setRecipe}  setdataRecipe={setdataRecipe} />
           )}
+          {displayForm && <EditForm addNewRecipe={addNewRecipe} recipe={datarecipe} updateRecipe={updateRecipe} />}
         </div>
       </div>
     </div>

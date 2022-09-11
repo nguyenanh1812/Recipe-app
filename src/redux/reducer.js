@@ -99,10 +99,10 @@ const rootReducer = (state = initState, action) => {
 
     case "recipeList/removeRecipe":
       const recipeList1 = [...state.recipeList];
-      const removeRecipe = recipeList.find(
+      const removeRecipe = recipeList.findIndex(
         (recipe) => recipe.id === action.payload.id
       );
-      recipeList1.slice(removeRecipe, 1);
+      recipeList1.splice(removeRecipe, 1);
       return { ...state, recipeList: recipeList1 };
 
     case "shoppingList/addIngredient":
