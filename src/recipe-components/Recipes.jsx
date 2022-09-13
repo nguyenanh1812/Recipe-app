@@ -10,8 +10,6 @@ export default function Recipes() {
     details: false
   })
   const [disabled, setDisabled] = useState(true)
-  // const listRecipes = useSelector(state => state.listRecipe)
-  // const ingredientCount = listRecipes?.ingredient || []
   const btnShowBox = () => {
     setShowBox({
       newRecipe: true,

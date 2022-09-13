@@ -3,11 +3,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { addEditDetails, changeCountEditDetails, changeNameEditDetails, removeEditDetails } from '../app/detailsSlice'
 import { removeRecipe, saveEditDetails } from '../app/listRecipeSlice'
+import { editShoppingList } from '../app/shoppingListSilce'
 
 export default function Details({ showBox, setShowBox, disabled, setDisabled }) {
     const details = useSelector(state => state.details)
+    const listRecipe = useSelector(state => state.listRecipe)
     const dispatch = useDispatch()
-    const shoppingList = (e) => {
+    const shoppingList = (e, index) => {
+        const action = editShoppingList(listRecipe[index])
+        dispatch(action)
     }
     const btnEditForm = () => {
         setDisabled(false)
@@ -64,7 +68,7 @@ export default function Details({ showBox, setShowBox, disabled, setDisabled }) 
                         Manage Recipe
                     </button>
                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li onClick={(e) => shoppingList(e)}><Link className="dropdown-item" to="/list-item">To Shopping List</Link></li>
+                        <li onClick={(e) => shoppingList(e, details?.index)}><Link className="dropdown-item" to="/list-item">To Shopping List</Link></li>
                         <li onClick={() => btnEditForm()}><div className="dropdown-item">Edit ReciPe</div></li>
                         <li onClick={() => btnDelRecipe()}><div className="dropdown-item">Delete ReciPe</div></li>
                     </ul>

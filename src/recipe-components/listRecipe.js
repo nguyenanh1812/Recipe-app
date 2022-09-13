@@ -12,7 +12,6 @@ export default function ListRecipe({ btnShowBox, setShowBox, setDisabled }) {
     })
     const newDetails = { ...elm, index: index }
     setDisabled(true)
-    console.log(123)
     const action = addDetails(newDetails)
     dispatch(action)
   }
