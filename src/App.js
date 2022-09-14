@@ -5,20 +5,22 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./recipe-components/Home";
 import Header from "./recipe-components/Layout/Header";
-import ListItem from "./recipe-components/ListItem";
+// import ListItem from "./recipe-components/ListItem";
 import Recipes from "./recipe-components/Recipes";
+import ShoppingList from "./recipe-components/shoppingList";
 
 function App() {
   return (
     <>
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Recipes />} />
-          <Route path="/list-item" element={<ListItem />} />
+          <Route path="/list-item" element={<ShoppingList />} />
         </Routes>
       </BrowserRouter>
-      <Header />
+
     </>
   );
 }
